@@ -16,11 +16,6 @@ const Testing = () => {
   const { atomsAndSelectors: { atoms, selectors, $selectors } } = useAppSelector(state => state.atomsAndSelectors);
   const [ loading, setLoading ] = useState(true);
   
-  useEffect(() => {
-    console.log('in use effect 1');
-    console.log('snapshot history', snapshotHistory);
-  }, []);
-  
   const [ currentAtom, setCurrentAtom ] = useState('');
   const [ currentAtomValue, setCurrentAtomValue ] = useState('');
   const [ toBeValue, setToBeValue ] = useState('');
@@ -94,7 +89,7 @@ const Testing = () => {
             selectors={selectors}
             currentSelector={currentSelector}
             setCurrentSelector={setCurrentSelector}
-            onChange={setJavascript}
+            setJavascript={setJavascript}
             selectorsFnAsStrings={$selectors}
             loadedSelector={loadedSelector}
             setLoadedSelector={setLoadedSelector}

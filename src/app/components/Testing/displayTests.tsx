@@ -23,7 +23,7 @@ const DisplayTests: React.FC<any> = (props) => {
 
     return (
       <div>
-        <p>Atom ({currentAtom}): <strong>{currentAtomValue}</strong></p>
+        <p>Atom ({currentAtom}): <strong>{currentAtomValue.toString()}</strong></p>
         <p>Selector: <strong>{currentSelector}</strong></p>
         <form>
           <label htmlFor='expected'>To Be: </label>

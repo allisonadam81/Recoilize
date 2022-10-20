@@ -7,7 +7,7 @@ import { useSetRecoilState } from 'recoil';
 const SelectorsButton: React.FC<any> = props => {
 
   const {
-    selectorsFnAsStrings, selectors, atoms, onChange, currentSelector,
+    selectorsFnAsStrings, selectors, atoms, setJavascript, currentSelector,
     setCurrentSelector, currentAtom, setCurrentAtom, currentAtomValue,
     setCurrentAtomValue, toBeValue, setToBeValue, parameters, setParameters, 
     loadedSelector, setLoadedSelector, madeSelectors
@@ -64,24 +64,19 @@ const SelectorsButton: React.FC<any> = props => {
     get: ${parser(get)}, 
     set: ${parser(set)},
   }`
-
-    onChange(displayedSelector);
-
-    // console.log('Selector Key: ', selectorKey);
-    // setCurrentSelector(selectorKey);
-
+    setJavascript(displayedSelector);
     // find the current atom dependent on the selector clicked from the drop down
     // currently referencing the last element in the snapshotHistory array
     const dependentAtom = snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[selectorKey].nodeDeps[0];
     setCurrentAtom(dependentAtom);
     // find the current atom value from the dependentAtom associated with the clicked on Selector
     const dependentAtomValue = snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[dependentAtom].contents;
+    console.log(dependentAtomValue);
     setCurrentAtomValue(dependentAtomValue);
-    //setLoadedSelector(useSetRecoilState(madeSelectors.nextPlayerSetSelector));
-    //console.log('loaded Selector set: ', loadedSelector);
   }
   
-  //relabeled and used a value property to capture the value on an on change above - you can now find the keys. Function needs to be completed though
+  //relabeled and used a value property to capture the value on an on change above - you can now find the keys.
+  // Function needs to be completed though
   const HTMLselectorArray: JSX.Element[] = [];
   selectors.forEach((selector, i) => {
     HTMLselectorArray.push(<option key={i} value={selector}>{selector}</option>);
@@ -91,7 +86,11 @@ const SelectorsButton: React.FC<any> = props => {
     <div>
       <div>
           <label htmlFor='selectors'>Selectors: </label>
-          <select name='selectors' id='selectors' onChange={() => handleChange(document.querySelector('#selectors'))}>{HTMLselectorArray}</select>
+          <select
+            name='selectors'
+            id='selectors'
+            onChange={() => handleChange(document.querySelector('#selectors'))}
+          >{HTMLselectorArray}</select>
       </div>
       <div>
         <DisplayTests 

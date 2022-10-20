@@ -58,30 +58,27 @@ function handleChange (editor, data, value) {
       <div className='editor-container'>
         <div>
           <ControlledEditor
-          className='code-mirror-wrapper'
-          onBeforeChange={handleChange}
-          value={value}
-          options={{
-            lineWrapping: true,
-            mode: 'javascript',
-            lineNumbers: true,
-            lint: true,
-            //indentUnit: 2,
-            autoCloseBrackets: true,
-            theme: 'dracula',
-            // smartIndent: tru,
-          }}
+            className='code-mirror-wrapper'
+            onBeforeChange={handleChange}
+            value={value}
+            options={{
+              lineWrapping: true,
+              mode: 'javascript',
+              lineNumbers: true,
+              lint: true,
+              //indentUnit: 2,
+              autoCloseBrackets: true,
+              theme: 'dracula',
+              // smartIndent: tru,
+            }}
           />
         </div>
-
         <div>
           <button className='run-code' onClick={() => handleRunCodeClick(value)}>Run Code</button>
         </div>
-
         <CodeResults
           evaluatedCode={evaluatedCode}
         />
-
       </div>
   )
 }

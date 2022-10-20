@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 
 import Editor from './Editor';
 import SelectorsButton from './SelectorsButton';
-import {useAppSelector} from '../../state-management/hooks';
+import { useAppSelector } from '../../state-management/hooks';
 import './testing.css';
-import {atom, selector} from 'recoil';
+import { atom, selector } from 'recoil';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 

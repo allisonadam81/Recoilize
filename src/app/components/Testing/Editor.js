@@ -23,9 +23,7 @@ let comparisonValue;
 // create the selectors and atoms for use in this editor associated with the drop down selection
 if (madeSelectors[currentSelector]){
   mySelector = useSetRecoilState(madeSelectors[currentSelector]);
-
   if (!hasRendered){
-    
     mySelector()
     setHasRendered(true);
   }

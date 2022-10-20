@@ -8,6 +8,7 @@ import Network from '../components/AtomNetwork/AtomNetwork';
 import AtomComponentVisualContainer from '../components/ComponentGraph/AtomComponentContainer';
 import Settings from '../components/Settings/SettingsContainer';
 import Testing from '../components/Testing/TestingContainer';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 type navTypes = {
   [tabName: string]: JSX.Element;
@@ -36,7 +37,9 @@ const VisualContainer: React.FC = () => {
     // add a testing tab
     Testing: (
       <RecoilRoot>
-        <Testing />
+        <ErrorBoundary>
+          <Testing />
+        </ErrorBoundary>
       </RecoilRoot>
     ),
   };

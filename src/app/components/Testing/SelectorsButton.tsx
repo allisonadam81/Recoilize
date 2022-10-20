@@ -7,7 +7,9 @@ import { useSetRecoilState } from 'recoil';
 const SelectorsButton: React.FC<any> = props => {
 
   const {
-    selectorsFnAsStrings, selectors, atoms, onChange, currentSelector, setCurrentSelector, currentAtom, setCurrentAtom, currentAtomValue, setCurrentAtomValue, toBeValue, setToBeValue, parameters, setParameters, 
+    selectorsFnAsStrings, selectors, atoms, onChange, currentSelector,
+    setCurrentSelector, currentAtom, setCurrentAtom, currentAtomValue,
+    setCurrentAtomValue, toBeValue, setToBeValue, parameters, setParameters, 
     loadedSelector, setLoadedSelector, madeSelectors
   } = props;
 
@@ -18,9 +20,7 @@ const SelectorsButton: React.FC<any> = props => {
   // value to be expected -> updated in displayTests
   // stateful value to contain parameters initialized as an empty array
   // grab the filtered snapshot so we know which atoms and selectors are dependent of each other
-  const snapshotHistory = useAppSelector(
-    state => state.snapshot.snapshotHistory,
-  );
+  const snapshotHistory = useAppSelector(state => state.snapshot.snapshotHistory);
 
   const handleChange = (item) => {
     const selectorKey = item.options[item.selectedIndex].value;

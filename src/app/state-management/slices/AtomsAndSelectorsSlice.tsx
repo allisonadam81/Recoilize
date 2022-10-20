@@ -34,10 +34,11 @@ export const atomsAndSelectorsSlice = createSlice({
   },
 });
 
-console.log('atomsAndSelectorsSlice:', atomsAndSelectorsSlice);
+// console.log('atomsAndSelectorsSlice:', atomsAndSelectorsSlice);
 
 export const {setAtomsAndSelectors} = atomsAndSelectorsSlice.actions;
 
+// eslint-disable-next-line prettier/prettier
 export const selectAtomsAndSelectorsState = (state: RootState) => state.atomsAndSelectors;
 
 export default atomsAndSelectorsSlice.reducer;

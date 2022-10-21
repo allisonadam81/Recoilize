@@ -18,12 +18,13 @@ const DisplayTests: React.FC<any> = (props) => {
 
     function handleParameterChange(e) {
       setParameters(e.target.value);
-      console.log('E.TARGET.VAL: ', e.target.value);
+      // console.log('E.TARGET.VAL: ', e.target.value);
     }
 
+    // console.log('current atom ', currentAtom, currentAtomValue);
     return (
       <div>
-        <p>Atom ({currentAtom}): <strong>{currentAtomValue.toString()}</strong></p>
+        <p>Atom ({currentAtom}): <strong>{(typeof currentAtomValue === 'object' && !Array.isArray(currentAtomValue)) ? JSON.stringify(currentAtomValue) : currentAtomValue}</strong></p>
         <p>Selector: <strong>{currentSelector}</strong></p>
         <form>
           <label htmlFor='expected'>To Be: </label>

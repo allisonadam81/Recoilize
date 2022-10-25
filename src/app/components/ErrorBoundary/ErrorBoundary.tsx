@@ -1,8 +1,8 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 type ErrorState = {
-  hasError: boolean
-}
+  hasError: boolean;
+};
 
 class ErrorBoundary extends Component<{}, ErrorState> {
   constructor(props) {
@@ -10,7 +10,7 @@ class ErrorBoundary extends Component<{}, ErrorState> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(){
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -18,12 +18,10 @@ class ErrorBoundary extends Component<{}, ErrorState> {
     console.error(error, errorInfo);
   }
 
-
   render(): ReactNode {
-    if (this.state.hasError) return (<p>Whoops. There was an error.</p>);
-    else return this.props.children
+    if (this.state.hasError) return <p>Whoops. There was an error.</p>;
+    else return this.props.children;
   }
 }
-
 
 export default ErrorBoundary;

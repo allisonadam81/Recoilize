@@ -23,7 +23,6 @@ const SelectorsButton: React.FC<any> = props => {
   const snapshotHistory = useAppSelector(state => state.snapshot.snapshotHistory);
 
   const handleChange = (item) => {
-    console.log(item);
     const selectorKey = item.options[item.selectedIndex].value;
     // update state with the chosen Selector
     setCurrentSelector(selectorKey);

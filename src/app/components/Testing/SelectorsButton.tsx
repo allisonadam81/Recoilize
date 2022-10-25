@@ -23,6 +23,7 @@ const SelectorsButton: React.FC<any> = props => {
   const snapshotHistory = useAppSelector(state => state.snapshot.snapshotHistory);
 
   const handleChange = (item) => {
+    console.log(item);
     const selectorKey = item.options[item.selectedIndex].value;
     // update state with the chosen Selector
     setCurrentSelector(selectorKey);
@@ -71,16 +72,14 @@ const SelectorsButton: React.FC<any> = props => {
     setCurrentAtom(dependentAtom);
     // find the current atom value from the dependentAtom associated with the clicked on Selector
     const dependentAtomValue = snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[dependentAtom].contents;
-    console.log(dependentAtomValue);
     setCurrentAtomValue(dependentAtomValue);
   }
   
-  //relabeled and used a value property to capture the value on an on change above - you can now find the keys.
+  // relabeled and used a value property to capture the value on an on change above - you can now find the keys.
   // Function needs to be completed though
-  const HTMLselectorArray: JSX.Element[] = [];
-  selectors.forEach((selector, i) => {
-    HTMLselectorArray.push(<option key={i} value={selector}>{selector}</option>);
-  });
+  const HTMLselectorArray: JSX.Element[] = selectors.map((selector, i) => {
+    return <option key={`Option${i}`} value={selector}>{selector}</option>;
+});
   
   return (
     <div>
@@ -90,7 +89,7 @@ const SelectorsButton: React.FC<any> = props => {
             name='selectors'
             id='selectors'
             onChange={() => handleChange(document.querySelector('#selectors'))}
-          >{HTMLselectorArray}</select>
+          >{[<option key={`Option -1`} value={'-'} >-</option>, ...HTMLselectorArray]}</select>
       </div>
       <div>
         <DisplayTests 

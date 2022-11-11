@@ -5,9 +5,36 @@ import Editor from './Editor';
 import SelectorsButton from './SelectorsButton';
 import { useAppSelector } from '../../state-management/hooks';
 import './testing.css';
-import { atom, selector } from 'recoil';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState, atom, selector } from 'recoil';
+const buildSelectors = (selectors, selectorsClone, createdSelectors = {}) => {
+    selectors.forEach(selectorKey => {
+      if (selectorsClone[selectorKey].set) {
+        selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('get(', 'get(madeAtoms.');
+        selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('set(', 'set(madeAtoms.');
+        selectorsClone[selectorKey].set = eval('(' + selectorsClone[selectorKey].set + ')');
+      }
+      if (selectorsClone[selectorKey].get){
+        selectorsClone[selectorKey].get = selectorsClone[selectorKey].get.replaceAll('get(', 'get(madeAtoms.');
+        selectorsClone[selectorKey].get = eval('(' + selectorsClone[selectorKey].get + ')');
+      } else {
+        selectorsClone[selectorKey].get = ({ get }) => {return};
+      }
+      createdSelectors[selectorKey] = selector(selectorsClone[selectorKey]);
+    });
 
+    return createdSelectors;
+}
+
+const buildAtoms = (snapshotHistory, createdAtoms = {}) => {
+  snapshotHistory[snapshotHistory.length - 1].atomsAndSelectors.atoms.forEach(theAtom => {
+    createdAtoms[theAtom] = atom({
+      key: theAtom,
+      default: snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[theAtom].contents,
+    });
+  });
+
+  return createdAtoms;
+}
 
 const Testing = () => {
   // retrieve snapshotHistory State from Redux Store
@@ -25,37 +52,35 @@ const Testing = () => {
   const [ madeAtoms, setMadeAtoms ] = useState({});
 
   useEffect(() => {
-    console.log('in use effect 2 ')
-
-    const createdAtoms = {};
-    snapshotHistory[snapshotHistory.length - 1].atomsAndSelectors.atoms.forEach(theAtom => {
-      createdAtoms[theAtom] = atom({
-        key: theAtom,
-        default: snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[theAtom].contents,
-      });
-    });
+    const createdAtoms = buildAtoms(snapshotHistory);
+    // const createdAtoms = {};
+    // snapshotHistory[snapshotHistory.length - 1].atomsAndSelectors.atoms.forEach(theAtom => {
+    //   createdAtoms[theAtom] = atom({
+    //     key: theAtom,
+    //     default: snapshotHistory[snapshotHistory.length - 1].filteredSnapshot[theAtom].contents,
+    //   });
+    // });
     setMadeAtoms(createdAtoms);
   }, []);
 
   useEffect(() => {
-    let selectorsClone = JSON.parse(JSON.stringify($selectors));
-    const createdSelectors = {};
-  
-    selectors.forEach(selectorKey => {
-      if (selectorsClone[selectorKey].set) {
-        selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('get(', 'get(madeAtoms.');
-        selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('set(', 'set(madeAtoms.');
-        selectorsClone[selectorKey].set = eval('(' + selectorsClone[selectorKey].set + ')');
-      }
-      if (selectorsClone[selectorKey].get){
-        selectorsClone[selectorKey].get = selectorsClone[selectorKey].get.replaceAll('get(', 'get(madeAtoms.');
-        selectorsClone[selectorKey].get = eval('(' + selectorsClone[selectorKey].get + ')');
-      } else {
-        selectorsClone[selectorKey].get = ({ get }) => {return};
-      }
-      createdSelectors[selectorKey] = selector(selectorsClone[selectorKey]);
-    });
-
+    // let selectorsClone = JSON.parse(JSON.stringify($selectors));
+    // selectors.forEach(selectorKey => {
+      //   if (selectorsClone[selectorKey].set) {
+        //     selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('get(', 'get(madeAtoms.');
+        //     selectorsClone[selectorKey].set = selectorsClone[selectorKey].set.replaceAll('set(', 'set(madeAtoms.');
+        //     selectorsClone[selectorKey].set = eval('(' + selectorsClone[selectorKey].set + ')');
+        //   }
+        //   if (selectorsClone[selectorKey].get){
+          //     selectorsClone[selectorKey].get = selectorsClone[selectorKey].get.replaceAll('get(', 'get(madeAtoms.');
+          //     selectorsClone[selectorKey].get = eval('(' + selectorsClone[selectorKey].get + ')');
+          //   } else {
+            //     selectorsClone[selectorKey].get = ({ get }) => {return};
+            //   }
+            //   createdSelectors[selectorKey] = selector(selectorsClone[selectorKey]);
+            // });
+            
+    const createdSelectors = buildSelectors(selectors, JSON.parse(JSON.stringify($selectors)))
     setMadeSelectors(createdSelectors);
     setLoading(false);
   }, [ madeAtoms ]);
